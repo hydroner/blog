@@ -1,0 +1,28 @@
+{% extends "blog/base.html" %}
+{% load staticfiles %}
+{% block title %}Django{% endblock %}
+{% block content %}
+<div>
+    {% for post in posts %}
+        <h2 class="text-center">{{ post.title }}</h2>
+        <p class="text-center">{{ post.content }}</p>
+        <p class="text-center">作者：{{ post.user }}</p>
+        <p class="text-center">发布时间：{{ post.date }}</p>
+    {% endfor %}
+</div>
+<nav class="text-center">
+    <ul class="pagination">
+         <li{%if not posts.has_previous %}class="disabled"{% endif %}>
+             <a href="{% if posts.has_previous %}{%url 'index' posts.previous_page_number %}{% else %}#{% endif %}">
+                上一页
+             </a>
+         </li>
+         <li><a href="#">{{ posts.number }}</a></li>
+         <li{%if not posts.has_next %}class="disabled"{% endif %}>
+            <a href="{% if posts.has_next %}{%url 'index' posts.next_page_number %}{% else %}#{% endif %}">
+                下一页
+            </a>
+         </li>        
+     </ul>    
+</nav>
+{% endblock %}
