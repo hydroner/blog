@@ -4,16 +4,15 @@
 {% block content %}
 <form method="post" action="." role="form">
     {% csrf_token %}
-    <div class="form-group">
+    <div class="form-group text-center">
         <div class="col-md-3">
-            <label for="title" class="control-label">标题</label>
+            <label class="control-label">标题</label>
             <input type="text" class="form-control" name="title" value="{{ title }}"/>
         </div>   
     </div>
-    </br>
-    <div class="form-group">
+    <div class="form-group text-center">
         <div class="col-md-3">
-            <label for="post">内容</label>
+            <label class="control-label">内容</label>
             <textarea class="form-control" rows="3" name="post" value="{{ post }}"/></textarea>
         </div>
     </div>  

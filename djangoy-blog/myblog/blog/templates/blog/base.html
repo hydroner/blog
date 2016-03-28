@@ -23,9 +23,12 @@
             <div class="collapse navbar-collapse" id="example-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'index' 1 %}">Blog</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'edit' %}">Edit</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    {% if current_user.is_authenticated %}
+                    {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}">Singout</a></li>
                     {% else %}
                     <li><a href="{% url 'login' %}">Singin</a></li>

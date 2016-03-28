@@ -1,4 +1,4 @@
-#_*_ coding:utf-8 _*_
+#  _*_ coding:utf-8 _*_
 
 from django.shortcuts import render, redirect
 
@@ -6,23 +6,24 @@ from django.shortcuts import render, redirect
 from datetime import datetime
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login ,logout
 from django.contrib.auth.decorators import login_required
 from .forms import PostForm, LoginForm
 from .models import Post
 
 #查询所有blog并分页
+@login_required()
 def index(request, page_id=1):
-    posts = Post.objects.order_by('-date')
+    user = request.user
+    posts = Post.objects.filter(user=user).order_by('-date')
     paginator = Paginator(posts, 2)  #实例化一个分页对象
-    print page_id
     try:
         posts = paginator.page(page_id)  #获取对应页记录
     except PageNotAnInteger:  #如果页码不是整数
         posts = paginator.page(1)  #取第一页的记录
     except EmptyPage:  #如果页码太大，没有相应记录
-        posts = paginator.page(page.num_pages)  #取最后一条记录
-    return render(request, 'blog/index.html', {'posts': posts})
+        posts = paginator.page(paginator.num_pages)  #取最后一条记录
+    return render(request, 'blog/index.html', {'posts': posts, 'user': user})
 
 
 @login_required()
@@ -61,8 +62,9 @@ def loginto(request):
     return render(request, 'blog/login.html', 
                  {'username': username, 'password': password})
               
-def logout(request):
-    pass
+def logouto(request):
+    logout(request)
+    return redirect('login')
 
 def register(request):
     pass

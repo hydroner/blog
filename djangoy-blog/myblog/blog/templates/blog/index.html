@@ -12,13 +12,13 @@
 </div>
 <nav class="text-center">
     <ul class="pagination">
-         <li{%if not posts.has_previous %}class="disabled"{% endif %}>
+         <li {% if not posts.has_previous %}class="disabled"{% endif %}>
              <a href="{% if posts.has_previous %}{%url 'index' posts.previous_page_number %}{% else %}#{% endif %}">
                 上一页
              </a>
          </li>
          <li><a href="#">{{ posts.number }}</a></li>
-         <li{%if not posts.has_next %}class="disabled"{% endif %}>
+         <li {%if not posts.has_next %}class="disabled"{% endif %}>
             <a href="{% if posts.has_next %}{%url 'index' posts.next_page_number %}{% else %}#{% endif %}">
                 下一页
             </a>
