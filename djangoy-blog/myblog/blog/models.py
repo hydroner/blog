@@ -1,13 +1,15 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
+
 
 class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.TextField()
-    user = models.CharField(max_length=10)
+    user = models.ForeignKey(User)
     date = models.DateTimeField()
     
     def __unicode__(self):
@@ -15,3 +17,9 @@ class Post(models.Model):
 
     class Meta:
         db_table = 'post'
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User)
+    post = models.ForeignKey(Post)
+    body = models.CharField(max_length=20)

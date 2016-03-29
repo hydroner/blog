@@ -1,0 +1,11 @@
+{% extends 'blog/base.html' %}
+{% load staticfiles %}
+{% block title %}Django{% endblock %}
+{% block content %}
+<div>
+    <h2 class="text-center">{{ post.title }}</h2>
+    <p class="text-center">{{ post.content }}</p>
+    <p class="text-center">作者：{{ post.user }}</p>
+    <p class="text-center">发布时间：{{ post.date }}</p>
+</div>
+{% endblock %}
