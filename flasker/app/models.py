@@ -65,12 +65,13 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
     location = db.Column(db.String(64))
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     followed = db.relationship('Follow',                   #当前用户关注的人
-                               foreign_keys=[Follow.followed_id],
+                               foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower', lazy='joined'),
                                lazy='dynamic',
                                cascade='all, delete-orphan')
@@ -162,6 +163,7 @@ class Post(db.Model):
     body = db.Column(db.Text)
     timestmap = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     @staticmethod
     def generate_fake(count=100):
@@ -177,6 +179,15 @@ class Post(db.Model):
                      author=u)
             db.session.add(p)
             db.session.commit()
+
+
+class Comment(db.Model):
+    __tablename = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
 
 class AnonymousUser(AnonymousUserMixin):
