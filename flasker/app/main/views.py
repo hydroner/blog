@@ -105,7 +105,8 @@ def unfollow(username):
     flash('You are not following the %s anymore!' % username)
     return redirect(url_for('.user', username=username))
 
-#关注者列表
+
+# 关注者列表
 @main.route('/followers/<username>')
 def followers(username):
     user = User.query.filter_by(username=username).first()
@@ -122,7 +123,8 @@ def followers(username):
                            endpoint='.followers', pagination=pagination,
                            follows=follows)
 
-#粉丝列表
+
+# 粉丝列表
 @main.route('/followed-by/<username>')
 def followed_by(username):
     user = User.query.filter_by(username=username).first()
